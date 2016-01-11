@@ -23,7 +23,7 @@ class game {
 
     function play() {
         $check = true;
-        // in future incorporate & refactor some additional checks such as verifying parameter values (x,o,-)
+        // in future, incorporate & refactor some additional checks such as verifying parameter values (x,o,-)
         $numSquares = count($this->position);
         if ($numSquares != 9) {
             $check = false;
@@ -76,8 +76,8 @@ class game {
         $token = $this->position[$move];
         if ($token == '-') {
             $this->position[$move] = 'x';
-        } else {
-            $this->pick_move(); //not a great idea (browser memory??)
+        } else { // is square chosen already taken?
+            $this->pick_move(); //not a great idea (browser memory??) fix when i'm thinking better
         }
     }
 
