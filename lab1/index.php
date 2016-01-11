@@ -38,10 +38,8 @@ and open the template in the editor.
 //        echo ($total > 0) ? 'You owe me $ ' . $total : "You're welcome";
 
 
-        $gameon = true;
-
-
-        if ($gameon) {
+        $game_on = true;
+        if ($game_on) {
             echo '<br>';
             if (isset($_GET['board'])) {
                 $squares = $_GET['board'];

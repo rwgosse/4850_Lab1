@@ -8,6 +8,8 @@
 
 /**
  * A simple PHP tic-tac-toe game, taking game positions as parameters
+ * Additional parameters checks are needed, and changes should be made so it 
+ * really stops after someone wins.
  *
  * @author Richard Gosse A00246425
  */
@@ -17,21 +19,24 @@ class game {
 
     function __construct($squares) {
         $this->position = str_split($squares);
-        $this->squares = $squares;
     }
 
     function play() {
+        $check = true;
+        // in future incorporate & refactor some additional checks such as verifying parameter values (x,o,-)
         $numSquares = count($this->position);
-        if ($numSquares == 9) {
+        if ($numSquares != 9) {
+            $check = false;
+        }
 
-            $this->pick_move();
-
-            $this->display();
+        if ($check) { //does the parameter pass a quick size check?
+            $this->pick_move(); // computer moves first as X
+            $this->display(); // human then moves as o, and grid is displayed
             if ($this->winner('o')) {
-                echo '<h2>O Wins!</h2>';
+                echo '<h2>O Wins! Good for you!</h2>';
                 return false;
             } else if ($this->winner('x')) {
-                echo '<h2>X Wins!</h2>';
+                echo '<h2>X Wins! Too bad!</h2>';
                 return false;
             } else {
                 echo '<h2>No Winner Yet</h2>';
@@ -43,7 +48,7 @@ class game {
 
     function display() {
         echo '<table cols=”3” style="font-size:300%; text-align:center;">';
-        echo '<tr><th>TIC-</th><th>TAC-</th><th>TOE</th></tr><tr>'; // open the first row
+        echo '<tr><th>TIC-</th><th>TAC-</th><th>TOE</th></tr><tr>'; // build header & open the first row
         for ($pos = 0; $pos < 9; $pos++) {
             echo $this->show_cell($pos);
             if ($pos % 3 == 2) {
@@ -66,17 +71,17 @@ class game {
         return '<td style="border: 1px solid black"><a href="' . $link . '">-</a></td>';
     }
 
-    function pick_move() {
+    function pick_move() { // pretty basic, computer picks a random on-occupied square, doesn't try hard to win.
         $move = rand(0, 8);
         $token = $this->position[$move];
         if ($token == '-') {
             $this->position[$move] = 'x';
         } else {
-            $this->pick_move();
+            $this->pick_move(); //not a great idea (browser memory??)
         }
     }
 
-    function winner($token) {
+    function winner($token) { //eeww!, else if, else if, etc... fix if time
         $won = false;
         if (($this->position[0] == $token) &&
                 ($this->position[1] == $token) &&
